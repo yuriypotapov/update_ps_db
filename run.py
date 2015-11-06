@@ -15,9 +15,12 @@ class main():
         connect_to_db = ConnectToDb()
 
         if param.file_d:
-            connect_to_db.connect_to_db(name_db=param.params_to_db['name_db'],
-                                    user_db=param.params_to_db['user_db'],
-                                    password_db=param.params_to_db['password_db'])
+            get_params = param.get_params_to_db()
+            name_db = get_params.get('db_name')
+            user_db = get_params.get('db_user')
+            password_db = get_params.get('db_password')
+
+            connect_to_db.connect_to_db(name_db=name_db, user_db=user_db, password_db=password_db)
         else:
             quest = raw_input("Config file didn't set! Would you like search config file in current directory?[y/n]")
             if quest.lower() == 'y':

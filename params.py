@@ -23,16 +23,14 @@ class params_connect():
 
     def get_params_to_db(self):
         self.config.read(self.file_d)
-        name_db = self.config.get('options', 'db_name') if self.file_d else ''
-        user_db = self.config.get('options', 'db_user') if self.file_d else ''
-        password_db = self.config.get('options', 'db_password') if self.file_d else ''
-        port_db = self.config.get('options', 'db_port') if self.file_d else ''
-
-        value = {'name_db': name_db,
-                 'user_db': user_db,
-                 'password_db': password_db,
-                 'port_db': port_db}
-        self.params_to_db.update(value)
+        value = {}
+        try:
+            for conf in self.config.sections():
+                for opt in self.config.items(conf):
+                    value.update({opt})
+        except Exception, a:
+            raise Exception(a)
+        return value
 
     def find_file(self):
         iterator = 0

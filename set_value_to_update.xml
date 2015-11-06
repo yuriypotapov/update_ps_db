@@ -3,6 +3,7 @@
 		<if name="login">login</if>
 		<field name="email">email</field>
 		<field name="user_email">email</field>
+		<field name="user_email1">email</field>
     </table>
 	<table name="address">
 		<if name="login">login</if>
