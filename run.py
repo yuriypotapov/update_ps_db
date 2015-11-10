@@ -7,24 +7,29 @@ from params import params_connect
 from connect_to_db import ConnectToDb
 
 
-class main():
+class Main(object):
 
-    def connect(self):
+    connect_to_db = ConnectToDb
 
+    def __init__(self):
         param = params_connect()
-        connect_to_db = ConnectToDb()
-
         if param.file_d:
             get_params = param.get_params_to_db()
             name_db = get_params.get('db_name')
             user_db = get_params.get('db_user')
             password_db = get_params.get('db_password')
-
-            connect_to_db.connect_to_db(name_db=name_db, user_db=user_db, password_db=password_db)
+            self.success_connect(name_db, user_db, password_db)
         else:
+            self.fail_param_connect(param)
+
+    def success_connect(self, name_db, user_db, password_db, **kwargs):
+        self.connect_to_db(name_db=name_db, user_db=user_db, password_db=password_db)
+        return True
+
+    def fail_param_connect(self, **kwargs):
             quest = raw_input("Config file didn't set! Would you like search config file in current directory?[y/n]")
             if quest.lower() == 'y':
-                files = param.find_file()
+                files = kwargs.get('param').find_file()
                 if files:
                     print "Found %s config files" % (len(files))
                     for i in files:
@@ -32,13 +37,13 @@ class main():
                     set_file = int(raw_input("Please set file that you want to use (for example enter '1')"))
                     while set_file not in files.keys():
                         set_file = int(raw_input("Please write correct value!"))
-                    param.set_file_d(files.get(set_file))
-                    connect_to_db.connect_to_db(name_db=param.params_to_db['name_db'],
-                                            user_db=param.params_to_db['user_db'],
-                                            password_db=param.params_to_db['password_db'])
+                    kwargs.get('param').set_file_d(files.get(set_file))
+                    self.connect_to_db.connect_to_db(name_db=kwargs.get('param').params_to_db['name_db'],
+                                                     user_db=kwargs.get('param').params_to_db['user_db'],
+                                                     password_db=kwargs.get('param').params_to_db['password_db'])
                 else:
                     print "Files not found"
-        return True
+
 
 if __name__ == '__main__':
-    main().connect()
+    Main()
