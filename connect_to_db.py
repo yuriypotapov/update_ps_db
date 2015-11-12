@@ -1,10 +1,10 @@
 import sys
 import psycopg2
-import form_sql
+from form_sql import FormSql
 from tqdm import tqdm
 
 
-class ConnectToDb(object):
+class ConnectToDb(FormSql):
 
     name_db = None
     user_db = None
@@ -17,16 +17,17 @@ class ConnectToDb(object):
         self.connect_to_db()
 
     def connect_to_db(self):
+        connect_to_db = psycopg2.connect(database=self.name_db, user=self.user_db, password=self.password_db)
+        print connect_to_db
+        cr = connect_to_db.cursor()
+        form_query = self.form_update_sql
         try:
-            connet_to_db = psycopg2.connect(database=self.name_db, user=self.user_db, password=self.password_db)
-            print connet_to_db
-            cr = connet_to_db.cursor()
-            tqdm(cr.execute(form_sql.query_update))
+            cr.execute(form_query())
             if cr:
                 print "\n", self.name_db, "is updated"
-            connet_to_db.commit()
+            connect_to_db.commit()
         except Exception, a:
             print a
         finally:
             cr.close()
-            connet_to_db.close()
+            connect_to_db.close()
