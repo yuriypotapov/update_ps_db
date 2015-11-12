@@ -5,7 +5,7 @@ import settings
 from tqdm import tqdm
 
 
-class params_connect():
+class ParamsConnectToDb(object):
 
     config = ConfigParser.ConfigParser()
     file_d = ''
@@ -39,8 +39,5 @@ class params_connect():
             iterator += 1
         return self.files
 
-    def set_file_d(self, file):
-        self.file_d = file
-        self.get_params_to_db()
-        return True
-
+    def set_file_d(self, _file):
+        self.file_d = _file

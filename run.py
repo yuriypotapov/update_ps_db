@@ -3,33 +3,38 @@
 import sys
 import psycopg2
 import form_sql
-from params import params_connect
+from params import ParamsConnectToDb
 from connect_to_db import ConnectToDb
 
 
-class Main(object):
+class Main(ParamsConnectToDb, ConnectToDb):
 
     connect_to_db = ConnectToDb
+    name_db = None
+    user_db = None
+    password_db = None
 
-    def __init__(self):
-        param = params_connect()
-        if param.file_d:
-            get_params = param.get_params_to_db()
-            name_db = get_params.get('db_name')
-            user_db = get_params.get('db_user')
-            password_db = get_params.get('db_password')
-            self.success_connect(name_db, user_db, password_db)
+    def get_parameters(self):
+        param = ParamsConnectToDb()
+        if self.file_d:
+            get_params = self.get_params_to_db()
+            self.name_db = get_params.get('db_name')
+            self.user_db = get_params.get('db_user')
+            self.password_db = get_params.get('db_password')
+            self.success_connect()
         else:
-            self.fail_param_connect(param)
+            try_agein = self.fail_get_param(param)
+            if try_agein is not None:
+                self.get_parameters()
 
-    def success_connect(self, name_db, user_db, password_db, **kwargs):
-        self.connect_to_db(name_db=name_db, user_db=user_db, password_db=password_db)
+    def success_connect(self, **kwargs):
+        self.connect_to_db(name_db=self.name_db, user_db=self.user_db, password_db=self.password_db)
         return True
 
-    def fail_param_connect(self, **kwargs):
+    def fail_get_param(self, params):
             quest = raw_input("Config file didn't set! Would you like search config file in current directory?[y/n]")
             if quest.lower() == 'y':
-                files = kwargs.get('param').find_file()
+                files = self.find_file()
                 if files:
                     print "Found %s config files" % (len(files))
                     for i in files:
@@ -37,13 +42,12 @@ class Main(object):
                     set_file = int(raw_input("Please set file that you want to use (for example enter '1')"))
                     while set_file not in files.keys():
                         set_file = int(raw_input("Please write correct value!"))
-                    kwargs.get('param').set_file_d(files.get(set_file))
-                    self.connect_to_db.connect_to_db(name_db=kwargs.get('param').params_to_db['name_db'],
-                                                     user_db=kwargs.get('param').params_to_db['user_db'],
-                                                     password_db=kwargs.get('param').params_to_db['password_db'])
+                    self.set_file_d(files.get(set_file))
+                    return True
                 else:
                     print "Files not found"
 
 
 if __name__ == '__main__':
-    Main()
+    main = Main()
+    main.get_parameters()
