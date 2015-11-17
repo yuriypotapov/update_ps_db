@@ -1,7 +1,7 @@
 #!/usr/bin/env python
 
-from lib.params import ParamsConnectToDb
-from lib.connect_to_db import ConnectToDb
+from params import ParamsConnectToDb
+from connect_to_db import ConnectToDb
 
 
 class Main(ParamsConnectToDb, ConnectToDb):
