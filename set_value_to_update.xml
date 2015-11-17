@@ -1,19 +1,7 @@
 <edit>
-    <table name="res_users">
-		<if name="login">login</if>
-		<field name="email">yuri@enapps.co.uk</field>
-		<field name="user_email">yurii@enapps.co.uk</field>
-    </table>
-	<table name="res_users">
+    <table name="users">
 		<if name="login">admin</if>
-		<field name="password">admin123456</field>
+		<field name="email">email@email.com</field>
+		<field name="user_email">email@email.com</field>
     </table>
-	<table name="res_users">
-		<if name="login">admin</if>
-		<field name="email">yuri@enapps.co.uk</field>
-    </table>
-	<table name="res_users">
-		<if name="login">test</if>
-		<field name="password">testtest1</field>
-	</table>
 </edit>

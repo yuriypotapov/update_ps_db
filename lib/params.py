@@ -1,8 +1,10 @@
 import ConfigParser
 import sys
-import glob, os
-import settings
+import glob
+
 from tqdm import tqdm
+
+import settings
 
 
 class ParamsConnectToDb(object):

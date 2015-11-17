@@ -1,10 +1,7 @@
 #!/usr/bin/env python
 
-import sys
-import psycopg2
-import form_sql
-from params import ParamsConnectToDb
-from connect_to_db import ConnectToDb
+from lib.params import ParamsConnectToDb
+from lib.connect_to_db import ConnectToDb
 
 
 class Main(ParamsConnectToDb, ConnectToDb):

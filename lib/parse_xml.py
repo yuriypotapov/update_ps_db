@@ -28,7 +28,8 @@ class ParseXml(object):
             for table in tables:
                 equal = self.parse_equal(table=table)
                 fields = self.parse_fields(table=table)
-                self.tables_with_all.append({'table': table.attrib, 'fields': fields, 'where': equal})
+                if table is not None and equal is not None and fields is not None:
+                    self.tables_with_all.append({'table': table.attrib, 'fields': fields, 'where': equal})
         return self.tables_with_all
 
     def parse_tables(self, root):
@@ -43,8 +44,8 @@ class ParseXml(object):
             _where_name = table.find('if').attrib['name']
             _where_value = table.find('if').text
             res.update({_where_name: _where_value})
-        except SyntaxError, a:
-            print "Syntax error", a
+        except:
+            print "Error 'if': Please set correct format: <if name='field'>name</if>\n"
         return res
 
     def parse_fields(self, table):

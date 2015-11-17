@@ -20,11 +20,11 @@ class ConnectToDb(FormSql):
         connect_to_db = psycopg2.connect(database=self.name_db, user=self.user_db, password=self.password_db)
         print connect_to_db
         cr = connect_to_db.cursor()
-        form_query = self.form_update_sql
+        form_query = self.default_query if self.default_query else self.form_update_sql()
         try:
-            cr.execute(form_query())
+            cr.execute(form_query)
             if cr:
-                print "\n", self.name_db, "is updated"
+                print self.name_db, "updated"
             connect_to_db.commit()
         except Exception, a:
             print a

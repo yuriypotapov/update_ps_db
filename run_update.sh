@@ -1,3 +1,3 @@
 #!/bin/bash
 
-python ./run.py -c ./config.cfg
+python ./lib/run.py -c ./conf/config.cfg
