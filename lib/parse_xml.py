@@ -45,7 +45,7 @@ class ParseXml(object):
             _where_value = table.find('if').text
             res.update({_where_name: _where_value})
         except:
-            print "Error 'if': Please set correct format: <if name='field'>name</if>\n"
+            return res
         return res
 
     def parse_fields(self, table):

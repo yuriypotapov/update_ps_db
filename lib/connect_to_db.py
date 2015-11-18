@@ -2,6 +2,7 @@ import sys
 import psycopg2
 from form_sql import FormSql
 from tqdm import tqdm
+import timeit
 
 
 class ConnectToDb(FormSql):
